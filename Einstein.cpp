@@ -16,11 +16,11 @@ class Board
 {
 public:
 	std::shared_ptr<Board> parent;
-	std::vector<int> validchess;			//¿ÉÒÔ×ßµÄÆå×Ó
-	int chess[2] = { 0,-1 };				//µ¼ÖÂÕâ¸öÆå¾ÖÒª×ßµÄÆå×ÓºÍ·½Ïò
-	std::vector<int> posStep[2];			//¿ÉÄÜµÄ×ß·¨µÄ¸öÊı£¬Òª·ÖÖÖÀà£¬0Ë®Æ½×ßÎ»¡¢1´¹Ö±×ßÎ»¡¢2¶Ô½Ç×ßÎ»
-	int color;								//ºìÉ«Îª0£¬À¶É«Îª1
-	int board[5][5] = {};				//ÆåÅÌ
+	std::vector<int> validchess;			//å¯ä»¥èµ°çš„æ£‹å­
+	int chess[2] = { 0,-1 };			//å¯¼è‡´è¿™ä¸ªæ£‹å±€è¦èµ°çš„æ£‹å­å’Œæ–¹å‘
+	std::vector<int> posStep[2];			//å¯èƒ½çš„èµ°æ³•çš„ä¸ªæ•°ï¼Œè¦åˆ†ç§ç±»ï¼Œ0æ°´å¹³èµ°ä½ã€1å‚ç›´èµ°ä½ã€2å¯¹è§’èµ°ä½
+	int color;					//çº¢è‰²ä¸º0ï¼Œè“è‰²ä¸º1
+	int board[5][5] = {};				//æ£‹ç›˜
 	int visit_times = 0;
 	int win_time = 0;
 	double quality = 0.0;
@@ -363,12 +363,12 @@ int Einstein::parse(std::string s)
 	}
 }
 
-//Ã§·òËã·¨
+//è½å¤«ç®—æ³•
 std::string fool(int dice, int board[5][5]);
 
 //UCT
 
-//·µ»Ø×î¼Ñ×Ó½Úµã
+//è¿”å›æœ€ä½³å­èŠ‚ç‚¹
 std::shared_ptr<Board> BestChild(std::shared_ptr<Board> v, double c)
 {
 	std::shared_ptr<Board> q;
@@ -400,7 +400,7 @@ std::shared_ptr<Board> MostWin(std::shared_ptr<Board> v)
 	return p;
 }
 
-//ÍØÕ¹
+//æ‹“å±•
 std::shared_ptr<Board> Expand(std::shared_ptr<Board> v)
 {
 	std::vector<int> posChess[2];
@@ -493,8 +493,8 @@ void oneMove(std::shared_ptr<Board> v, int newboard[5][5], int chess, int direct
 	}
 }
 
-//ËÑË÷²ßÂÔ
-//ÅĞ¶ÏÊÇ·ñÎªÖÕÖ¹½Úµã
+//æœç´¢ç­–ç•¥
+//åˆ¤æ–­æ˜¯å¦ä¸ºç»ˆæ­¢èŠ‚ç‚¹
 bool is_Terminal(std::shared_ptr<Board> v)
 {
 	int blue, red;
@@ -533,7 +533,7 @@ std::shared_ptr<Board> Treepolicy(std::shared_ptr<Board> v)
 	return v;
 }
 
-//Ä£Äâº¯Êı
+//æ¨¡æ‹Ÿå‡½æ•°
 bool RandomMove(std::shared_ptr<Board> v, bool col)
 {
 	int ch[7] = { 0 };
@@ -802,7 +802,7 @@ int simulate(std::shared_ptr<Board> v)
 	{
 		tempColor = RandomMove(v, tempColor);
 	}
-	//·µ»ØÄ£Äâ½á¹û
+	//è¿”å›æ¨¡æ‹Ÿç»“æœ
 	int result;
 	int blue, red;
 	blue = red = 0;
@@ -828,10 +828,10 @@ void Backup(std::shared_ptr<Board> v, int result)
 {
 	while (v)
 	{
-		v->visit_times++;											//µ½µ×ÊÇË­µÄvisit´ÎÊı£¿
+		v->visit_times++;							//åˆ°åº•æ˜¯è°çš„visitæ¬¡æ•°ï¼Ÿ
 		if ((v->color ^ result))
 			v->win_time++;
-		v->quality = double(v->win_time) / double(v->visit_times);		//µ½µ×ÊÇË­µÄvisit´ÎÊı£¿
+		v->quality = double(v->win_time) / double(v->visit_times);		//åˆ°åº•æ˜¯è°çš„visitæ¬¡æ•°ï¼Ÿ
 		v = v->parent;
 	}
 }
@@ -1055,7 +1055,7 @@ std::string fool(int dice, int board[5][5])
 		}
 		else
 		{
-			//´ÓÖĞ¼äÏòÁ½±ßÕÒ
+			//ä»ä¸­é—´å‘ä¸¤è¾¹æ‰¾
 			int x1, x2, y1, y2;
 			x1 = x2 = y1 = y2 = 9;
 			for (int k = dice - 1; k > 0; k--)
@@ -1128,7 +1128,7 @@ std::string fool(int dice, int board[5][5])
 		}
 		else
 		{
-			//´ÓÖĞ¼äÏòÁ½±ßÕÒ
+			//ä»ä¸­é—´å‘ä¸¤è¾¹æ‰¾
 			int x1, x2, y1, y2;
 			x1 = x2 = y1 = y2 = 9;
 			for (int k = dice - 6 - 1; k > 0; k--)
