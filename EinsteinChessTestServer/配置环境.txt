@@ -1,0 +1,25 @@
+windows 平台下运行环境配置
+1.https://www.cnblogs.com/weven/p/7252917.html
+按照教程安装python3 和 pip
+2. 以管理员权限打开windows cmd或powershell （见右键点击windows图标，见图片“如何打开cmd.png”）
+3. 输入pip install pygame 命令 安装pygame包
+4. 输入 python TestServer.py 运行测试服务器（此处可以不使用管理员权限）
+
+
+Ubuntu 平台运行环境配置
+打开终端，依次输入以下命令
+1. sudo apt-get install python3
+2. sudo apt-get install python3-pip
+3. pip3 install pygame
+4. 输入 python3 TestServer.py 运行测试服务器
+
+
+MacOS 平台运行环境配置
+打开终端，依次输入以下命令
+1. 安装brew  https://brew.sh/
+2. brew install python3
+3. pip3 install pygame
+4. 输入 python3 TestServer.py 运行测试服务器
+
+具体运行情况可以查看目录下的运行示例图片
+服务器运行结束后按回车键结束
